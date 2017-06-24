@@ -17,6 +17,9 @@ public class NewMain {
     public static void main(String[] args) {
         BeanSqlPersona persona = new BeanSqlPersona();
         persona.listar();
+        
+        
+        
     }
     
 }

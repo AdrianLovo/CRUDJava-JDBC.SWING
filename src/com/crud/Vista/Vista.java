@@ -152,7 +152,7 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setText("dd-mm-yyyy");
+        jLabel13.setText("yyyy-mm-d");
         jLabel13.setOpaque(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -276,7 +276,7 @@ public class Vista extends javax.swing.JFrame {
 
         txtUpdateId.setEnabled(false);
 
-        jLabel14.setText("dd-mm-yyyy");
+        jLabel14.setText("yyyy-mm-d");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -374,77 +374,6 @@ public class Vista extends javax.swing.JFrame {
         this.txtUpdateFecha.setText(null);
     }
 
-    public void Guardar(Persona persona) {
-        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("CrudPU");
-        EntityManager em = emf.createEntityManager();
-        PersonaJpaController personaC = new PersonaJpaController(emf);
-        em.getTransaction().begin();
-
-        try {
-            personaC.create(persona);
-            em.getTransaction().commit();
-            em.close();
-            emf.close();
-            JOptionPane.showMessageDialog(this, "Registro agregado");
-        } catch (PersistenceException e) {
-            System.out.println(e);
-            em.getTransaction().rollback();
-        }*/
-    }
-
-    public void Eliminar(Persona persona) {
-        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("CrudPU");
-        EntityManager em = emf.createEntityManager();
-        PersonaJpaController personaC = new PersonaJpaController(emf);
-        em.getTransaction().begin();
-
-        try {
-            personaC.destroy(persona.getIdPersona());
-            em.getTransaction().commit();
-            em.close();
-            emf.close();
-            JOptionPane.showMessageDialog(this, "Registro eliminado");
-        } catch (NonexistentEntityException e) {
-            System.out.println(e);
-            em.getTransaction().rollback();
-        }*/
-    }
-
-    public void Modificar(Persona persona) {
-        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("CrudPU");
-        EntityManager em = emf.createEntityManager();
-        PersonaJpaController personaC = new PersonaJpaController(emf);
-        em.getTransaction().begin();
-
-        try {
-            personaC.edit(persona);
-            em.getTransaction().commit();
-            em.close();
-            emf.close();
-            JOptionPane.showMessageDialog(this, "Registro Modificado");
-        } catch (Exception e) {
-            System.out.println(e);
-            em.getTransaction().rollback();
-        }*/
-    }
-
-    public List<Persona> Listar() {
-        List listaPersonas = new ArrayList();
-        /*try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("CrudPU");
-            EntityManager em = emf.createEntityManager();
-            PersonaJpaController personaC = new PersonaJpaController(emf);
-            em.getTransaction().begin();
-            listaPersonas = personaC.findPersonaEntities();
-            em.close();
-            emf.close();
-        } catch (NoResultException e) {
-            System.out.println(e);
-        }*/
-        
-        return listaPersonas;
-    }
-
     public void MostrarTabla() {
         BeanSqlPersona persona = new BeanSqlPersona();
         List<IParametro> listaPersonas = persona.listar();
@@ -459,7 +388,7 @@ public class Vista extends javax.swing.JFrame {
             tabla.setValueAt(p.getApellido(), filas, 2);
             tabla.setValueAt(p.getEdad(), filas, 3);
             tabla.setValueAt(p.getGenero(), filas, 4);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String fechaTexto = formatter.format(p.getFechaNac());
             tabla.setValueAt(fechaTexto, filas, 5);
             filas++;
@@ -468,14 +397,13 @@ public class Vista extends javax.swing.JFrame {
 
     public void BorrarTabla() {
         int rows = tabla.getRowCount();
-        System.out.println("FILA " + rows);
         for (int i = 0; i < rows; i++) {
             ((DefaultTableModel) tabla.getModel()).removeRow(0);
         }
     }
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        String regexp = "\\d{1,2}-\\d{1,2}-\\d{4}";
+        String regexp = "\\d{4}-\\d{1,2}-\\d{1,2}";
         Boolean fecha = false;
 
         fecha = Pattern.matches(regexp, txtAgregarFecha.getText());
@@ -502,9 +430,10 @@ public class Vista extends javax.swing.JFrame {
 
                 persona.setFechaNac(ConvertirFecha(this.txtAgregarFecha.getText()));
 
-                Guardar(persona);
+                BeanSqlPersona bean = new BeanSqlPersona();
+                bean.Agregar(persona);
+                
                 BorrarCampos();
-
                 BorrarTabla();
                 MostrarTabla();
             }
@@ -519,14 +448,11 @@ public class Vista extends javax.swing.JFrame {
 
     public Date ConvertirFecha(String fecha) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = fecha;
         Date date = null;
         try {
             date = formatter.parse(dateInString);
-            System.out.println(date);
-            System.out.println(formatter.format(date));
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -534,22 +460,22 @@ public class Vista extends javax.swing.JFrame {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        /*if (!txtEliminarId.getText().equals("")) {
+        if (!txtEliminarId.getText().equals("")) {
             Persona persona = new Persona();
-            persona.setIdPersona(Integer.parseInt(txtEliminarId.getText()));
-            Eliminar(persona);
+            persona.setId(Integer.parseInt(txtEliminarId.getText()));            
+            BeanSqlPersona bean = new BeanSqlPersona();
+            bean.Elimina(persona);
             BorrarCampos();
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese el Id del campo a eliminar");
         }
-
         BorrarTabla();
         MostrarTabla();
-        */
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        /*String regexp = "\\d{1,2}-\\d{1,2}-\\d{4}";
+        String regexp = "\\d{4}-\\d{1,2}-\\d{1,2}";
         Boolean fecha = false;
 
         fecha = Pattern.matches(regexp, txtUpdateFecha.getText());
@@ -562,7 +488,7 @@ public class Vista extends javax.swing.JFrame {
             } else {
 
                 Persona persona = new Persona();
-                persona.setIdPersona(Integer.parseInt(this.txtUpdateId.getText()));
+                persona.setId(Integer.parseInt(this.txtUpdateId.getText()));
                 persona.setNombre(txtUpdateNombre.getText());
                 persona.setApellido(txtUpdateApellido.getText());
                 persona.setEdad(Integer.parseInt(txtUpdateEdad.getText()));
@@ -575,22 +501,20 @@ public class Vista extends javax.swing.JFrame {
                 }
 
                 persona.setFechaNac(ConvertirFecha(this.txtUpdateFecha.getText()));
-                Modificar(persona);
+                BeanSqlPersona bean = new BeanSqlPersona();
+                bean.Modificar(persona);
                 BorrarCampos();
-
                 BorrarTabla();
                 MostrarTabla();
             }
         } catch (Exception e) {
             txtAgregarEdad.setText("");
             JOptionPane.showMessageDialog(this, "Edad no valida");
-        }*/
+        }
 
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        /*
-        
         this.txtEliminarId.setText(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
         this.txtUpdateId.setText(tabla.getValueAt(tabla.getSelectedRow(), 0).toString());
         this.txtUpdateNombre.setText(tabla.getValueAt(tabla.getSelectedRow(), 1).toString());
@@ -602,10 +526,7 @@ public class Vista extends javax.swing.JFrame {
         } else {
             this.cbxUpdateGenero.setSelectedIndex(1);
         }
-
         this.txtUpdateFecha.setText(tabla.getValueAt(tabla.getSelectedRow(), 5).toString());
-
-        */
     }//GEN-LAST:event_tablaMouseClicked
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged

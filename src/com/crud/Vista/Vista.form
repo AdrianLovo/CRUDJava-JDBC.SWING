@@ -264,7 +264,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel13">
               <Properties>
-                <Property name="text" type="java.lang.String" value="dd-mm-yyyy"/>
+                <Property name="text" type="java.lang.String" value="yyyy-mm-d"/>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
             </Component>
@@ -476,7 +476,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel14">
               <Properties>
-                <Property name="text" type="java.lang.String" value="dd-mm-yyyy"/>
+                <Property name="text" type="java.lang.String" value="yyyy-mm-d"/>
               </Properties>
             </Component>
           </SubComponents>
